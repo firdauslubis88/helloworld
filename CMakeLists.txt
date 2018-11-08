@@ -1,0 +1,27 @@
+cmake_minimum_required(VERSION 3.5)
+
+project(helloworld)
+
+#message('hello dunia')
+#set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "E:/third_party-class/Ceres/CMake")
+set(Ceres_DIR "E:/third_party-class/Ceres/CMake")
+#set(EIGEN_INCLUDE_DIR "E:/third_party-class/Eigen3/include/eigen3")
+#set(SUITESPARSE_INCLUDE_DIR_HINTS "E:/third_party-class/suitesparse-metis-for-windows/include/")
+#set(SUITESPARSE_LIBRARY_DIR_HINTS "E:/third_party-class/suitesparse-metis-for-windows/lib/")
+#set(Ceres_DIR "E:/third_party-class/Ceres/CMake/")
+#LIST(APPEND CMAKE_MODULE_PATH "E:/third_party-class/Ceres/CMake")
+find_package(Ceres REQUIRED)
+include_directories(${CERES_INCLUDE_DIRS})
+
+macro(add_example)
+set(OPTIONS "")
+set(ONE_ARG "NAME")
+set(MULTI_ARGS "SRCS")
+cmake_parse_arguments(TARGET "${OPTIONS}" "${ONE_ARG}" "${MULTI_ARGS}" ${ARGN})
+add_executable(${TARGET_NAME} ${TARGET_SRCS})
+target_link_libraries(${TARGET_NAME} ${CERES_LIBRARIES})
+install(TARGETS ${TARGET_NAME} RUNTIME DESTINATION .)
+endmacro()
+
+add_example(NAME helloworld SRCS helloworld.cc)
+add_example(NAME helloworld-geodesic-costfunctor SRCS helloworld-geodesic-costfunctor.cc)
